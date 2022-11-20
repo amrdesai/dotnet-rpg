@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet_rpg.Dtos.Character;
 
 namespace dotnet_rpg.Services.CharacterService
 {
@@ -13,20 +14,26 @@ namespace dotnet_rpg.Services.CharacterService
             new Character { Id = 1, Name = "Tillu" }
         };
 
-        public List<Character> AddCharacter(Character newCharacter)
+        public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
             characters.Add(newCharacter);
-            return characters;
+            var response = new ServiceResponse<List<GetCharacterDto>>();
+            response.Data = characters;
+            return response;
         }
 
-        public List<Character> GetAllCharacters()
+        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {
-            return characters;
+            var response = new ServiceResponse<List<GetCharacterDto>>() { Data = characters };
+            return response;
         }
 
-        public Character  GetCharacterById(int id)
+        public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
         {
-            return characters.FirstOrDefault(c => c.Id == id);
+            var character = characters.FirstOrDefault(c => c.Id == id);
+            var response = new ServiceResponse<GetCharacterDto>();
+            response.Data = character;
+            return response;
         }
     }
 }

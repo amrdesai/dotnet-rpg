@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet_rpg.Dtos.Character;
 using dotnet_rpg.Services.CharacterService;
 using Microsoft.AspNetCore.Mvc;
 // using dotnet_rpg.Models;
@@ -19,23 +20,23 @@ namespace dotnet_rpg.Controllers
         }
         
         [HttpGet("GetAll")]
-        public ActionResult<List<Character>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get()
         {
-            var characters = _characterService.GetAllCharacters();
+            var characters = await _characterService.GetAllCharacters();
             return Ok(characters);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Character> GetSingle([FromRoute] int id)
+        public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle([FromRoute] int id)
         {
-            var character = _characterService.GetCharacterById(id);
+            var character = await _characterService.GetCharacterById(id);
             return Ok(character);
         }
 
         [HttpPost]
-        public ActionResult<List<Character>> AddCharacter([FromBody] Character newCharacter)
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacter([FromBody] AddCharacterDto newCharacter)
         {
-            var charactersWithNewCharacter = _characterService.AddCharacter(newCharacter);
+            var charactersWithNewCharacter = await _characterService.AddCharacter(newCharacter);
             return Ok(charactersWithNewCharacter);
         }
     }
